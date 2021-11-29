@@ -1,0 +1,5 @@
+node_modules
+.env
+package-lock.json
+docker-configs/env/mongo-db.env
+docker-configs/env/mongo-express.env

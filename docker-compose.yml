@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  <app-name>-nginx:
+    image: 'nginx:stable-alpine'
+    container_name: <app-name>-nginx
+    ports:
+      - "8001:80"
+    volumes:
+      - ./docker-configs/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  <app-name>-app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    container_name: <app-name>-app
+    image: <app-name>-app:latest
+    volumes:
+      - ./:/home/node
+
+    depends_on:
+      - <app-name>-mongo-db
+  <app-name>-mongo-db:
+    image: mongo:5.0
+    container_name: <app-name>-mongo-db
+    ports:
+      - "27017:27017"
+    env_file:
+      - ./docker-configs/env/mongo-db.env
+    volumes:
+      - <app-name>_mongo_data:/data/db
+  <app-name>-mongo-express:
+    image: mongo-express:latest
+    container_name: <app-name>-mongo-express
+    ports:
+      - 8002:8081
+    env_file:
+      - ./docker-configs/env/mongo-express.env
+    depends_on:
+      - <app-name>-mongo-db
+volumes: 
+  <app-name>_mongo_data:
