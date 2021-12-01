@@ -9,7 +9,7 @@ export UID
 export GID
 
 shell:
-	docker-compose -f docker-compose.yml exec -u ${UID}:${GID} search-engine sh
+	docker-compose -f docker-compose.yml exec -u ${UID}:${GID} <app-name>-app sh
 
 up:
 	docker-compose -f docker-compose.yml up --build -d --remove-orphans
@@ -18,4 +18,4 @@ down:
 	docker-compose -f docker-compose.yml down --remove-orphans
 
 logging:
-	docker logs --follow search-engine
+	docker logs --follow <app-name>-app
